@@ -17,14 +17,14 @@ def set_missing_ages(df):
     age_df = df[['Age', 'Fare', 'Parch', 'SibSp', 'Pclass']]
 
     #乘客分成已知年龄和未知年龄两部分
-    known_age = age_df[age_df.Age.notnull()].as_matrix()
-    unknown_age = age_df[age_df.Age.isnull()].as_matrix()
+    known_age = age_df[age_df.Age.notnull()].values      #参数的shape为[n_samples, n_features]
+    unknown_age = age_df[age_df.Age.isnull()].values
 
     # y即目标年龄
     y = known_age[:, 0]
 
     # x即特征属性值
-    X = known_age[:, 1]
+    X = known_age[:, 1].reshape(1, -1)
 
     # fit到RandomForestRegressor之中
     rfr = RandomForestRegressor(random_state = 0, n_estimators = 2000, n_jobs = -1)
